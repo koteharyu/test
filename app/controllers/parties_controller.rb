@@ -1,5 +1,5 @@
 class PartiesController < ApplicationController
-  before_action :set_party, only: [:show, :edit, :update, :destroy]
+  before_action :set_party, only: [:show, :edit, :update, :destroy, :add_member]
 
   # GET /groups
   # GET /groups.json
@@ -10,6 +10,14 @@ class PartiesController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
+    members = Member.all
+    @not_participated_members = []
+    members.each do |member|
+      if
+        !member.party_ids.include?(@party.id)
+        @not_participated_members << member
+      end
+    end
   end
 
   # GET /groups/new
@@ -39,26 +47,20 @@ class PartiesController < ApplicationController
 
   # PATCH/PUT /partys/1
   # PATCH/PUT /partys/1.json
-  def update
-    respond_to do |format|
-      if @party.update(party_params)
-        format.html { redirect_to @party, notice: 'party was successfully updated.' }
-        format.json { render :show, status: :ok, location: @party }
-      else
-        format.html { render :edit }
-        format.json { render json: @party.errors, status: :unprocessable_entity }
-      end
-    end
-  end
 
+  def update
+    new_member_ids = []
+    new_member_ids = @party.member_ids << params[:member_id]
+    @party.member_ids = new_member_ids
+    redirect_to @party
+  end
   # DELETE /partys/1
   # DELETE /partys/1.json
   def destroy
-    @party.destroy
-    respond_to do |format|
-      format.html { redirect_to partys_url, notice: 'party was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    new_member_ids = []
+    new_member_ids = @party.member_ids.filter{ |member| member != params[:member_id].to_i }
+    @party.member_ids = new_member_ids
+    redirect_to @party
   end
 
   private
@@ -69,6 +71,6 @@ class PartiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def party_params
-      params.require(:party).permit(:name)
+      params.require(:party).permit(:name, member_ids: [])
     end
 end
