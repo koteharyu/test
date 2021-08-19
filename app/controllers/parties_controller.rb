@@ -1,5 +1,5 @@
 class PartiesController < ApplicationController
-  before_action :set_party, only: [:show, :edit, :update, :destroy, :add_member]
+  before_action :set_party, only: [:show, :edit, :update, :destroy, :add_member, :remove_member]
 
   # GET /groups
   # GET /groups.json
@@ -49,14 +49,27 @@ class PartiesController < ApplicationController
   # PATCH/PUT /partys/1.json
 
   def update
+    if @party.update(party_params)
+      redirect_to @party, notice: 'updated'
+    else
+      render :edit
+    end
+  end
+  # DELETE /partys/1
+  # DELETE /partys/1.json
+  def destroy
+    @party.destroy
+    redirect_to parties_path, notice: 'deleted'
+  end
+
+  def add_member
     new_member_ids = []
     new_member_ids = @party.member_ids << params[:member_id]
     @party.member_ids = new_member_ids
     redirect_to @party
   end
-  # DELETE /partys/1
-  # DELETE /partys/1.json
-  def destroy
+
+  def remove_member
     new_member_ids = []
     new_member_ids = @party.member_ids.filter{ |member| member != params[:member_id].to_i }
     @party.member_ids = new_member_ids
@@ -71,6 +84,6 @@ class PartiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def party_params
-      params.require(:party).permit(:name, member_ids: [])
+      params.require(:party).permit(:name)
     end
 end

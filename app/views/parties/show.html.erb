@@ -18,7 +18,7 @@
       <tr>
         <td><%= member.name%></td>
         <td><%= member.role%></td>
-        <td><%= link_to "脱退", party_path(@party, params: { member_id: member.id}), method: :delete %></td>
+        <td><%= link_to "脱退", remove_member_party_path(@party, params: { member_id: member.id}), method: :delete %></td>
       </tr>
     <% end %>
   </tbody>
@@ -41,7 +41,7 @@
       <% @not_participated_members.each do |npm|%>
         <tr>
           <td><%= npm.name%></td>
-          <td><%= link_to "参加", party_path(@party, { params: { member_id: npm.id } }), method: :put %></td>
+          <td><%= link_to "参加", add_member_party_path(@party, { params: { member_id: npm.id } }), method: :put %></td>
         </tr>
       <% end %>
     </tbody>
