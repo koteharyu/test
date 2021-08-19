@@ -78,10 +78,16 @@ class PartiesController < ApplicationController
 
   def set_organizer
     current_organizer = @party.party_members&.find_by(role: 1)
-    target_members = @party.party_members.filter{ |m| m.id != current_organizer.id }
-    selected_member = target_members.sample
-    selected_member.update(role: 1)
-    current_organizer.update(role: 0)
+    if current_organizer.nil?
+      target_members = @party.party_members.all
+      selected_member = target_members.sample
+      selected_member.update(role: 1)
+    else
+      target_members = @party.party_members.filter{ |m| m.id != current_organizer.id  }
+      selected_member = target_members.sample
+      selected_member.update(role: 1)
+      current_organizer.update(role: 0)
+    end
     redirect_to @party
   end
 
