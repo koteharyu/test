@@ -1,9 +1,31 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @party.name %>
+  <strong><%= @party.name%>に参加中のメンバー</strong>
 </p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @party.members.each do |member|%>
+      <tr>
+        <td><%= member.name%></td>
+        <td><%= member.role%></td>
+        <td><%= link_to "脱退", "#" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% @party.members.each do |member|%>
+
+<% end %>
 
 <%= link_to 'Edit', edit_party_path(@party) %> |
 <%= link_to 'Back', parties_path %>

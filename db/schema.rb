@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_18_094534) do
+ActiveRecord::Schema.define(version: 2021_08_19_043630) do
 
   create_table "members", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "role", default: 0
   end
 
   create_table "parties", force: :cascade do |t|
@@ -24,4 +25,15 @@ ActiveRecord::Schema.define(version: 2021_08_18_094534) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "party_members", force: :cascade do |t|
+    t.integer "party_id", null: false
+    t.integer "member_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["member_id"], name: "index_party_members_on_member_id"
+    t.index ["party_id"], name: "index_party_members_on_party_id"
+  end
+
+  add_foreign_key "party_members", "members"
+  add_foreign_key "party_members", "parties"
 end
