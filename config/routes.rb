@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :parties do
     member do
       put :add_member
+      put :set_organizer
       delete :remove_member
     end
   end

@@ -1,5 +1,5 @@
 class PartiesController < ApplicationController
-  before_action :set_party, only: [:show, :edit, :update, :destroy, :add_member, :remove_member]
+  before_action :set_party, only: [:show, :edit, :update, :destroy, :add_member, :remove_member, :set_organizer]
 
   # GET /groups
   # GET /groups.json
@@ -73,6 +73,15 @@ class PartiesController < ApplicationController
     new_member_ids = []
     new_member_ids = @party.member_ids.filter{ |member| member != params[:member_id].to_i }
     @party.member_ids = new_member_ids
+    redirect_to @party
+  end
+
+  def set_organizer
+    current_organizer = @party.party_members&.find_by(role: 1)
+    target_members = @party.party_members.filter{ |m| m.id != current_organizer.id }
+    selected_member = target_members.sample
+    selected_member.update(role: 1)
+    current_organizer.update(role: 0)
     redirect_to @party
   end
 
