@@ -6,7 +6,7 @@ class OparationMember::RolesController < ApplicationController
     if current_organizer.nil?
       target_members = @party.party_members.all
       selected_member = target_members.sample
-      selected_member.update(role: 1)
+      selected_member&.update(role: 1)
     else
       target_members = @party.party_members.filter{ |m| m.id != current_organizer.id  }
       selected_member = target_members.sample
