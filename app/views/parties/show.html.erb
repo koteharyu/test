@@ -25,7 +25,9 @@
   </tbody>
 </table>
 
-<%= link_to "幹事を設定する", oparation_member_role_path(@party), method: :put %>
+<% if @party.members.exists? %>
+  <%= link_to "幹事を設定する", oparation_member_role_path(@party), method: :put %>
+<% end %>
 
 <br>
 
