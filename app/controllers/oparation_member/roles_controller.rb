@@ -10,12 +10,12 @@ class OparationMember::RolesController < ApplicationController
     if current_organizer.nil?
       target_members = @party.party_members.all
       selected_member = target_members.sample
-      selected_member&.update(role: 1)
+      selected_member&.organizer!
     else
       target_members = @party.party_members.filter{ |m| m.id != current_organizer.id  }
       selected_member = target_members.sample
-      selected_member.update(role: 1)
-      current_organizer.update(role: 0)
+      selected_member&.organizer!
+      current_organizer&.regular!
     end
     selected_member = Member.find_by(id: selected_member.member_id)
     redirect_to party_path(@party), notice: "このグループの幹事は#{selected_member.name}さんです"
