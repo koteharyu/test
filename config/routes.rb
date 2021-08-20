@@ -3,10 +3,13 @@ Rails.application.routes.draw do
   root 'parties#index'
   resources :parties do
     member do
-      put :add_member
+      # put :add_member
       put :set_organizer
-      delete :remove_member
+      # delete :remove_member
     end
   end
   resources :members
+  namespace :oparation_member do
+    resources :parties, only: [:update, :destroy]
+  end
 end

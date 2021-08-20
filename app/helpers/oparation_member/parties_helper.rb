@@ -1,0 +1,2 @@
+module OparationMember::PartiesHelper
+end
