@@ -1,5 +1,5 @@
 class PartiesController < ApplicationController
-  before_action :set_party, only: [:show, :edit, :update, :destroy, :add_member, :remove_member, :set_organizer]
+  before_action :set_party, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
   # GET /groups.json
@@ -60,35 +60,6 @@ class PartiesController < ApplicationController
   def destroy
     @party.destroy
     redirect_to parties_path, notice: 'deleted'
-  end
-
-  def add_member
-    new_member_ids = []
-    new_member_ids = @party.member_ids << params[:member_id]
-    @party.member_ids = new_member_ids
-    redirect_to @party
-  end
-
-  def remove_member
-    new_member_ids = []
-    new_member_ids = @party.member_ids.filter{ |member| member != params[:member_id].to_i }
-    @party.member_ids = new_member_ids
-    redirect_to @party
-  end
-
-  def set_organizer
-    current_organizer = @party.party_members&.find_by(role: 1)
-    if current_organizer.nil?
-      target_members = @party.party_members.all
-      selected_member = target_members.sample
-      selected_member.update(role: 1)
-    else
-      target_members = @party.party_members.filter{ |m| m.id != current_organizer.id  }
-      selected_member = target_members.sample
-      selected_member.update(role: 1)
-      current_organizer.update(role: 0)
-    end
-    redirect_to @party
   end
 
   private
