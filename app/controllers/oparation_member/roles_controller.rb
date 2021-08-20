@@ -2,7 +2,7 @@ class OparationMember::RolesController < ApplicationController
   before_action :set_party
 
   def update
-    if @party.members.blank?
+    if @party.members.blank? || @party.members.lenght < 2
       redirect_to party_path(@party), notice: 'Please add some members'
       return
     end
