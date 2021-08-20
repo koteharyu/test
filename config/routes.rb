@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
   resources :members
   namespace :oparation_member do
-    resources :parties, only: [:update, :destroy]
+    resources :participates, only: [:update, :destroy]
     resources :roles, only: [:update]
   end
 end

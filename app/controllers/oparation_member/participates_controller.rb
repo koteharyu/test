@@ -1,4 +1,4 @@
-class OparationMember::PartiesController < ApplicationController
+class OparationMember::ParticipatesController < ApplicationController
   before_action :set_party
 
   def update
