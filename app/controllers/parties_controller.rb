@@ -9,8 +9,7 @@ class PartiesController < ApplicationController
     members = Member.all
     @not_participated_members = []
     members.each do |member|
-      if
-        !member.party_ids.include?(@party.id)
+      if !member.party_ids.include?(@party.id)
         @not_participated_members << member
       end
     end

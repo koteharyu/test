@@ -17,7 +17,8 @@ class OparationMember::RolesController < ApplicationController
       selected_member.update(role: 1)
       current_organizer.update(role: 0)
     end
-    redirect_to party_path(@party), notice: 'Succeeded in setting the Organizer'
+    selected_member = Member.find_by(id: selected_member.member_id)
+    redirect_to party_path(@party), notice: "このグループの幹事は#{selected_member.name}さんです"
   end
 
   private

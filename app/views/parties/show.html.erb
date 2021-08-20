@@ -17,7 +17,6 @@
     <% @party.members.each do |member|%>
       <tr>
         <td><%= member.name%></td>
-        <% %>
         <td><%= member.party_members.find_by(party_id: @party.id, member_id: member.id).role%></td>
         <td><%= link_to "脱退", oparation_member_participate_path(@party, params: { member_id: member.id}), method: :delete %></td>
       </tr>
