@@ -26,4 +26,5 @@ class OparationMember::RolesController < ApplicationController
   def set_party
     @party = Party.find(params[:id])
   end
+
 end

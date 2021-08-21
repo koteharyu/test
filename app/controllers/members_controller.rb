@@ -2,7 +2,7 @@ class MembersController < ApplicationController
   before_action :set_member, only: [:show, :edit, :update, :destroy]
 
   def index
-    @members = Member.all
+    @members = Member.all.includes(:parties)
   end
 
   def show
@@ -54,4 +54,5 @@ class MembersController < ApplicationController
     def member_params
       params.require(:member).permit(:name)
     end
+
 end

@@ -53,4 +53,5 @@ class PartiesController < ApplicationController
     def party_params
       params.require(:party).permit(:name)
     end
+
 end
