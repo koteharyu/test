@@ -2,7 +2,7 @@ class OparationMember::RolesController < ApplicationController
   before_action :set_party
 
   def update
-    if @party.members.blank? || @party.members.lenght < 2
+    if @party.members.blank? || @party.members.length < 2
       redirect_to party_path(@party), notice: 'Please add some members'
       return
     end
@@ -12,7 +12,7 @@ class OparationMember::RolesController < ApplicationController
       selected_member = target_members.sample
       selected_member&.organizer!
     else
-      target_members = @party.party_members.filter{ |m| m.id != current_organizer.id  }
+      target_members = @party.party_members.reject{ |m| m.id == current_organizer.id  }
       selected_member = target_members.sample
       selected_member&.organizer!
       current_organizer&.regular!
